@@ -95,7 +95,7 @@ NameGenerator.prototype.next = function (context, group) {
  */
 NameGenerator.prototype._next = function (name) {
   name = name || 'default';
-  var group = this.groups[name];
+  var group = this.groups[name] || this.groups['default'];
   group.index++;
 
   var rtn = digits.pad(group.index, group.options);
