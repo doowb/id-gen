@@ -1,7 +1,7 @@
 {
   "name": "name-generator",
   "description": "Generator names in sequence using defaults or a custom name generator function.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/doowb/name-generator",
   "author": {
     "name": "Brian Woodward",
