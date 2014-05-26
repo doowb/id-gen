@@ -9,6 +9,76 @@ Install with [npm](npmjs.org):
 npm i name-generator --save
 ``` 
 
+## Usage
+> Create a new generator and use the defaults:
+
+```js
+// require in the NameGenerator
+var NameGenerator = require('name-generator');
+
+// create a new instance of a generator
+var namer = new NameGenerator();
+
+// start using the generator to create
+// default names in sequence, e.g. 001, 002, 003, 004
+var name = namer.next();
+```
+
+> Create a generator with named groups
+
+```js
+// require in the NameGenerator
+var NameGenerator = require('name-generator');
+
+// create some named groups in the options
+var options = {
+  'default': {
+    digits: 2, // use 2 digits instead of 3
+  },
+  'pages': {
+    digits: 5, // use 5 digits instead of 3
+    prefix: 'page-' // make the generator add a prefix e.g. 'page-00001'
+  }
+}
+// create a new instance of a generator
+var namer = new NameGenerator(options);
+
+// start using the generator to create
+// default names in sequence, e.g. 01, 02, 03, 04
+var name = namer.next();
+
+// specify the named group to use the group options
+// page names in sequence, e.g. page-00001, page-00002, page-00003
+var pageName = namer.next('pages');
+```
+
+> Create a name generator using a custom generator function.
+
+```js
+// require in the NameGenerator
+var NameGenerator = require('name-generator');
+
+// create custom generator that takes a context
+function generator (context) {
+  // just use a name value on the context if specified
+  context = context || {};
+  return context.name;
+}
+
+// create a new instance of a generator
+var namer = new NameGenerator(generator);
+
+// start using the generator to create
+// default names in sequence, e.g. 01, 02, 03, 04
+var name = namer.next();
+
+// specify the context with a name to return the actual name
+// e.g. {name: 'foo'} => 'foo'
+var name = namer.next({name: 'foo'});
+```
+
+
+
 ## Author
 
 **Brian Woodward**
