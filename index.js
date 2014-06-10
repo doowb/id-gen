@@ -40,7 +40,7 @@ function NameGenerator (options, generator) {
   this.groups = {};
   this.groups.default = {
     options: this.options.default || {},
-    index: 0
+    counter: 0
   };
 
   _.forOwn(this.options, function (opts, key) {
@@ -52,7 +52,7 @@ function NameGenerator (options, generator) {
     }
     this.groups[key] = {
       options: opts,
-      index: 0
+      counter: 0
     };
   }.bind(this));
 }
@@ -96,9 +96,9 @@ NameGenerator.prototype.next = function (context, group) {
 NameGenerator.prototype._next = function (name) {
   name = name || 'default';
   var group = this.groups[name] || this.groups['default'];
-  group.index++;
+  group.counter++;
 
-  var rtn = digits.pad(group.index, group.options);
+  var rtn = digits.pad(group.counter, group.options);
   rtn = (group.options.prefix || '') + rtn;
   return rtn;
 };

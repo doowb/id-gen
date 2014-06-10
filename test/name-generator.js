@@ -128,7 +128,7 @@ describe('NameGenerator', function () {
       }
     });
 
-    it ('should keep the correct index for each group', function () {
+    it ('should keep the correct counter for each group', function () {
       expect(nameoromic.next()).to.be.eql('001');
       expect(nameoromic.next('page')).to.be.eql('Page-00001');
       expect(nameoromic.next()).to.be.eql('002');
