@@ -1,23 +1,23 @@
 {
-  "name": "idgenerator",
+  "name": "id-gen",
   "description": "Generator ids in sequence using defaults or a custom id generator function.",
   "version": "0.2.0",
-  "homepage": "https://github.com/doowb/idgenerator",
+  "homepage": "https://github.com/doowb/id-gen",
   "author": {
     "name": "Brian Woodward",
     "url": "https://github.com/doowb"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/doowb/idgenerator.git"
+    "url": "git://github.com/doowb/id-gen.git"
   },
   "bugs": {
-    "url": "https://github.com/doowb/idgenerator/issues"
+    "url": "https://github.com/doowb/id-gen/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/doowb/idgenerator/blob/master/LICENSE-MIT"
+      "url": "https://github.com/doowb/id-gen/blob/master/LICENSE-MIT"
     }
   ],
   "keywords": [
