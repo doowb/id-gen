@@ -17,17 +17,17 @@ function defaultGenerator () {
 
 
 /**
- * NameGenerator
+ * IdGenerator
  *
  * @constructor
  * @param {Object} `options` groups of options to pass to `digits`
- * @param {Function} `generator` custom generator used to calculate a name.
- * @return {Object} new instance of a NameGenerator
+ * @param {Function} `generator` custom generator used to calculate an id.
+ * @return {Object} new instance of a IdGenerator
  *
  */
-function NameGenerator (options, generator) {
-  if (!(this instanceof NameGenerator)) {
-    return new NameGenerator(options, generator);
+function IdGenerator (options, generator) {
+  if (!(this instanceof IdGenerator)) {
+    return new IdGenerator(options, generator);
   }
 
   if (_.isFunction(options)) {
@@ -61,39 +61,39 @@ function NameGenerator (options, generator) {
 /**
  * .next (context)
  *
- * Generator the next name given the context and an optional group name.
+ * Generator the next id given the context and an optional group name.
  * If the custom generator returns `null` or `undefined`, then the
- * next name is calculated based on the group and `digits` options
+ * next id is calculated based on the group and `digits` options
  * passed in the constructor.
  *
  * @param {Object} `context` passed directly to the custom generator
- * @param {String} `group` name of the group to use when the custom generator doesn't return a name
- * @return {String} The next name.
+ * @param {String} `group` name of the group to use when the custom generator doesn't return a id
+ * @return {String} The next id.
  */
-NameGenerator.prototype.next = function (context, group) {
+IdGenerator.prototype.next = function (context, group) {
   if (_.isString(context)) {
     group = context;
     context = {};
   }
-  var name = this.generator(context);
-  if (_.isEmpty(name)) {
-    name = this._next(group);
+  var id = this.generator(context);
+  if (_.isEmpty(id)) {
+    id = this._next(group);
   }
-  return name;
+  return id;
 };
 
 
 /**
  * ._next (group)
  *
- * Use digits to create the next name from the group.
+ * Use digits to create the next id from the group.
  * TODO: switch this to `strings` and allow a pattern instead of a prefix
  *
  * @param {String} `group` name of the group to use. defaults to 'default'
- * @return {String} next generated name
+ * @return {String} next generated id
  *
  */
-NameGenerator.prototype._next = function (name) {
+IdGenerator.prototype._next = function (name) {
   name = name || 'default';
   var group = this.groups[name] || this.groups['default'];
   group.counter++;
@@ -105,4 +105,4 @@ NameGenerator.prototype._next = function (name) {
 
 
 
-module.exports = NameGenerator;
+module.exports = IdGenerator;

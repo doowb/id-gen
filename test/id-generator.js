@@ -1,17 +1,17 @@
 
 'use strict';
 
-var NameGenerator = require('../');
+var IdGenerator = require('../');
 var expect = require('chai').expect;
 
-describe('NameGenerator', function () {
+describe('IdGenerator', function () {
 
   describe('when initializing without any arguments', function () {
 
     var nameoromic;
 
     beforeEach(function () {
-      nameoromic = new NameGenerator();
+      nameoromic = new IdGenerator();
     });
 
     it ('should return a default name', function () {
@@ -51,7 +51,7 @@ describe('NameGenerator', function () {
       var options = {
         digits: 5
       };
-      nameoromic = new NameGenerator(options);
+      nameoromic = new IdGenerator(options);
     });
 
     it ('should return a default name', function () {
@@ -95,7 +95,7 @@ describe('NameGenerator', function () {
           prefix: 'Page-'
         }
       };
-      nameoromic = new NameGenerator(options);
+      nameoromic = new IdGenerator(options);
     });
 
     it ('should return a default name', function () {
@@ -154,7 +154,7 @@ describe('NameGenerator', function () {
         context = context || {};
         return context['_id'] || context['name'];
       };
-      nameoromic = new NameGenerator(generator);
+      nameoromic = new IdGenerator(generator);
     });
 
     describe('when no context is passed in', function () {
@@ -207,7 +207,7 @@ describe('NameGenerator', function () {
         context = context || {};
         return context['_id'] || context['name'];
       };
-      nameoromic = new NameGenerator(options, generator);
+      nameoromic = new IdGenerator(options, generator);
     });
 
     describe('when no context is passed in', function () {
