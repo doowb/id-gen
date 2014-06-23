@@ -70,14 +70,18 @@ function IdGenerator (options, generator) {
  * @param {String} `group` name of the group to use when the custom generator doesn't return a id
  * @return {String} The next id.
  */
-IdGenerator.prototype.next = function (context, group) {
-  if (_.isString(context)) {
-    group = context;
-    context = {};
+IdGenerator.prototype.next = function (context, options) {
+  var groupName;
+
+  if (arguments.length === 1 && context && context.group) {
+    options = context;
+    groupName = options && options.group;
+    context = null;
   }
+
   var id = this.generator(context);
   if (_.isEmpty(id)) {
-    id = this._next(group);
+    id = this._next(groupName);
   }
   return id;
 };
@@ -93,9 +97,9 @@ IdGenerator.prototype.next = function (context, group) {
  * @return {String} next generated id
  *
  */
-IdGenerator.prototype._next = function (name) {
-  name = name || 'default';
-  var group = this.groups[name] || this.groups['default'];
+IdGenerator.prototype._next = function (groupName) {
+  groupName = groupName || 'default';
+  var group = this.groups[groupName] || this.groups['default'];
   group.counter++;
 
   var rtn = digits.pad(group.counter, group.options);
