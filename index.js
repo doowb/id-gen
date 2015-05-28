@@ -11,13 +11,15 @@ var extend = require('extend-shallow');
  * @name  IdGenerator
  */
 
-function IdGenerator (generator) {
+function IdGenerator (generator, options) {
   if (!(this instanceof IdGenerator)) {
-    return new IdGenerator(generator);
+    return new IdGenerator(generator, options);
   }
   if (typeof generator !== 'function') {
+    options = generator;
     generator = defaultGenerator;
   }
+  this.options = extend({digits: 3}, options);
   this.generator = generator.bind(this);
   this.groups = {};
   this.create('default');
@@ -36,7 +38,7 @@ function IdGenerator (generator) {
  */
 
 IdGenerator.prototype.create = function(groupName, options) {
-  var opts = extend({digits: 3}, options);
+  var opts = extend({}, options);
   this.groups[groupName] = {
     options: opts,
     counter: 0
@@ -85,7 +87,7 @@ function defaultGenerator (groupName, options) {
   groupName = groupName || 'default';
   var group = this.groups[groupName] || this.groups['default'];
   group.counter++;
-  var opts = extend({}, group.options, options);
+  var opts = extend({}, this.options, group.options, options);
   var len = opts.digits || (opts.auto && String(opts.auto).length) || 3;
   var result = digits(''+group.counter, len);
   result = (opts.prefix || '') + result;

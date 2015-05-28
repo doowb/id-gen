@@ -47,12 +47,12 @@ describe('IdGenerator', function () {
     var nameoromic;
 
     beforeEach(function () {
-      nameoromic = new IdGenerator();
+      nameoromic = new IdGenerator({digits: 5});
     });
 
     it ('should return a default name', function () {
       var expected = '00001';
-      var actual = nameoromic.next({digits: 5});
+      var actual = nameoromic.next();
       assert.equal(actual, expected);
     });
 
@@ -60,7 +60,7 @@ describe('IdGenerator', function () {
       var i;
       for (i = 1; i <= 10; i++) {
         var expected = (i===10) ? '00010' : '0000' + i;
-        var actual = nameoromic.next({digits: 5});
+        var actual = nameoromic.next();
         assert.equal(actual, expected);
       }
     });
@@ -69,7 +69,7 @@ describe('IdGenerator', function () {
     it ('should return proper names greater than 100000', function () {
       var i;
       for (i = 1; i <= 100010; i++) {
-        var actual = nameoromic.next({digits: 5});
+        var actual = nameoromic.next();
         if (i >= 100000) {
           var expected = String(i);
           assert.equal(actual, expected);
@@ -199,8 +199,7 @@ describe('IdGenerator', function () {
         options = options || {};
         return options['_id'] || options['name'];
       };
-      nameoromic = new IdGenerator(generator);
-      nameoromic.create('default', options);
+      nameoromic = new IdGenerator(generator, options);
     });
 
     describe('when no context is passed in', function () {
