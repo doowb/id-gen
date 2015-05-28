@@ -67,6 +67,7 @@ describe('IdGenerator', function () {
 
 
     it ('should return proper names greater than 100000', function () {
+      this.timeout(5000); // give it more time just in case
       var i;
       for (i = 1; i <= 100010; i++) {
         var actual = nameoromic.next();
