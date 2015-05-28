@@ -14,12 +14,28 @@
   "bugs": {
     "url": "https://github.com/doowb/id-gen/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/doowb/id-gen/blob/master/LICENSE-MIT"
-    }
+  "license": {
+    "type": "MIT",
+    "url": "https://github.com/doowb/id-gen/blob/master/LICENSE"
+  },
+  "files": [
+    "index.js"
   ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.8"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "digits": "^0.2.0",
+    "lodash": "^3.9.3"
+  },
+  "devDependencies": {
+    "chai": "^2.3.0",
+    "mocha": "^2.2.5"
+  },
   "keywords": [
     "docs",
     "documentation",
@@ -28,21 +44,5 @@
     "markdown",
     "templates",
     "verb"
-  ],
-  "main": "index.js",
-  "engines": {
-    "node": ">=0.8"
-  },
-  "scripts": {
-    "test": "mocha -R spec"
-  },
-  "devDependencies": {
-    "verb": "~0.2.0",
-    "chai": "~1.9.1",
-    "mocha": "~1.18.2"
-  },
-  "dependencies": {
-    "digits": "^0.1.4",
-    "lodash": "^2.4.1"
-  }
+  ]
 }

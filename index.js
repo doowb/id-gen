@@ -1,4 +1,3 @@
-
 var digits = require('digits');
 var _ = require('lodash');
 
@@ -98,7 +97,7 @@ IdGenerator.prototype._next = function (name) {
   var group = this.groups[name] || this.groups['default'];
   group.counter++;
 
-  var rtn = digits.pad(group.counter, group.options);
+  var rtn = digits(''+group.counter, group.options.auto || group.options.digits || 3);
   rtn = (group.options.prefix || '') + rtn;
   return rtn;
 };
