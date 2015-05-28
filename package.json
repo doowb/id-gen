@@ -1,7 +1,7 @@
 {
   "name": "id-gen",
   "description": "Generator ids in sequence using defaults or a custom id generator function.",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "homepage": "https://github.com/doowb/id-gen",
   "author": {
     "name": "Brian Woodward",
