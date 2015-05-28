@@ -75,6 +75,37 @@ var id = generator.next();
 var id = generator.next({id: 'foo'});
 ```
 
+## API
+
+### [IdGenerator](index.js#L12)
+
+Create a new IdGenerator passing in an optional generator
+function that does the actual work.
+
+**Params**
+
+* `generator` **{Function}**: Optional generator function used to generate new IDs    
+
+### [.create](index.js#L35)
+
+Create a new group to segment IDs
+
+**Params**
+
+* `groupName` **{String}**: Name of the group to create.    
+* `options` **{Object}**: Additional options to define how the IDs are generated.    
+* `returns` **{Object}** `this`: to enable chaining  
+
+### [.next](index.js#L65)
+
+Get the next ID by groupName
+
+**Params**
+
+* `groupName` **{String}**: Optional name of group to generate the ID for.    
+* `options` **{String}**: Additional options to pass to the generator    
+* `returns` **{String}**: Generated ID
+
 ## Author
 
 ## License

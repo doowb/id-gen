@@ -1,107 +1,100 @@
-var digits = require('digits');
-var _ = require('lodash');
+'use strict';
 
 /**
- * .defaultGenerator ( )
+ * Create a new IdGenerator passing in an optional generator
+ * function that does the actual work.
  *
- * Used in case a custom generator is not passed in.
- *
- * @return null
+ * @param {Function} `generator` Optional generator function used to generate new IDs
+ * @api public
+ * @name  IdGenerator
  */
 
-function defaultGenerator () {
-  return null;
+function IdGenerator (generator) {
+  if (!(this instanceof IdGenerator)) {
+    return new IdGenerator(generator);
+  }
+  if (typeof generator !== 'function') {
+    generator = defaultGenerator;
+  }
+  this.generator = generator.bind(this);
+  this.groups = {};
 }
 
-
-
 /**
- * IdGenerator
+ * Create a new group to segment IDs
  *
- * @constructor
- * @param {Object} `options` groups of options to pass to `digits`
- * @param {Function} `generator` custom generator used to calculate an id.
- * @return {Object} new instance of a IdGenerator
- *
+ * @param  {String} `groupName` Name of the group to create.
+ * @param  {Object} `options` Additional options to define how the IDs are generated.
+ *   @option `digits` [options] Number of digits used when padding the generated ID
+ *   @option `auto`   [options] Max number used to calculate length of digits used when padding generated ID
+ *   @option `prefix` [options] string prefix used to add to the generated ID
+ * @return {Object} `this` to enable chaining
+ * @api public
  */
-function IdGenerator (options, generator) {
-  if (!(this instanceof IdGenerator)) {
-    return new IdGenerator(options, generator);
-  }
 
-  if (_.isFunction(options)) {
-    generator = options;
-    options = {};
-  }
-
-  this.generator = generator || defaultGenerator;
-  this.options = options || {};
-  this.groups = {};
-  this.groups.default = {
-    options: this.options.default || {},
+IdGenerator.prototype.create = function(groupName, options) {
+  var opts = extend({digits: 3}, options);
+  this.groups[groupName] = {
+    options: opts,
     counter: 0
   };
+  return this;
+};
 
-  _.forOwn(this.options, function (opts, key) {
-    // if the `digits` options are are the root
-    // just add them to default options
-    if (key === 'auto' || key === 'digits') {
-      this.groups.default.options[key] = opts;
-      return;
-    }
-    this.groups[key] = {
-      options: opts,
-      counter: 0
-    };
-  }.bind(this));
+/**
+ * Get a group by it's name
+ *
+ * @param  {String} `groupName` Group name to get
+ * @return {Object} Object containing the group options and current counter.
+ * @api public;
+ */
+
+IdGenerator.prototype.group = function(groupName) {
+  return this.groups[groupName];
+};
+
+/**
+ * Get the next ID by groupName
+ *
+ * @param  {String} `groupName` Optional name of group to generate the ID for.
+ * @param  {String} `options` Additional options to pass to the generator
+ * @return {String} Generated ID
+ * @api public
+ */
+
+IdGenerator.prototype.next = function (groupName, options) {
+  if (typeof groupName !== 'string') {
+    options = groupName;
+    groupName = null;
+  }
+  return this.generator(groupName, options);
+};
+
+/**
+ * Default generator used to create incremental IDs by group name
+ *
+ * @param  {String} `groupName` Optional name of the group to use to generate an ID
+ * @return {String} Generated ID
+ */
+
+function defaultGenerator (groupName, options) {
+  var digits = require('digits');
+  groupName = groupName || 'default';
+  var group = this.groups[groupName] || this.groups['default'];
+  group.counter++;
+  var opts = extend({}, group.options, options);
+  var len = opts.digits || (opts.auto && String(opts.auto).length) || 3;
+  var result = digits(''+group.counter, len);
+  result = (opts.prefix || '') + rtn;
+  return result;
 }
 
-
 /**
- * .next (context)
- *
- * Generator the next id given the context and an optional group name.
- * If the custom generator returns `null` or `undefined`, then the
- * next id is calculated based on the group and `digits` options
- * passed in the constructor.
- *
- * @param {Object} `context` passed directly to the custom generator
- * @param {String} `group` name of the group to use when the custom generator doesn't return a id
- * @return {String} The next id.
+ * Export IdGenator
+ * @type {Object}
  */
-IdGenerator.prototype.next = function (context, group) {
-  if (_.isString(context)) {
-    group = context;
-    context = {};
-  }
-  var id = this.generator(context);
-  if (_.isEmpty(id)) {
-    id = this._next(group);
-  }
-  return id;
-};
-
-
-/**
- * ._next (group)
- *
- * Use digits to create the next id from the group.
- * TODO: switch this to `strings` and allow a pattern instead of a prefix
- *
- * @param {String} `group` name of the group to use. defaults to 'default'
- * @return {String} next generated id
- *
- */
-IdGenerator.prototype._next = function (name) {
-  name = name || 'default';
-  var group = this.groups[name] || this.groups['default'];
-  group.counter++;
-
-  var rtn = digits(''+group.counter, group.options.auto || group.options.digits || 3);
-  rtn = (group.options.prefix || '') + rtn;
-  return rtn;
-};
-
-
 
 module.exports = IdGenerator;
+
+
+
