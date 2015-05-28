@@ -1,5 +1,7 @@
 'use strict';
 
+var extend = require('extend-shallow');
+
 /**
  * Create a new IdGenerator passing in an optional generator
  * function that does the actual work.
@@ -18,6 +20,7 @@ function IdGenerator (generator) {
   }
   this.generator = generator.bind(this);
   this.groups = {};
+  this.create('default');
 }
 
 /**
@@ -67,7 +70,7 @@ IdGenerator.prototype.next = function (groupName, options) {
     options = groupName;
     groupName = null;
   }
-  return this.generator(groupName, options);
+  return this.generator(groupName, options) || defaultGenerator.call(this, groupName, options);
 };
 
 /**
@@ -85,7 +88,7 @@ function defaultGenerator (groupName, options) {
   var opts = extend({}, group.options, options);
   var len = opts.digits || (opts.auto && String(opts.auto).length) || 3;
   var result = digits(''+group.counter, len);
-  result = (opts.prefix || '') + rtn;
+  result = (opts.prefix || '') + result;
   return result;
 }
 
