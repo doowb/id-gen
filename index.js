@@ -63,16 +63,36 @@ IdGenerator.prototype.group = function(groupName) {
  *
  * @param  {String} `groupName` Optional name of group to generate the ID for.
  * @param  {String} `options` Additional options to pass to the generator
+ * @param  {Function} `cb` Optional callback function to get the next id async
  * @return {String} Generated ID
  * @api public
  */
 
-IdGenerator.prototype.next = function (groupName, options) {
-  if (typeof groupName !== 'string') {
+IdGenerator.prototype.next = function (groupName, options, cb) {
+  if (typeof groupName === 'function') {
+    cb = groupName;
+    options = {};
+    groupName = null;
+  }
+  if (typeof options === 'function') {
+    cb = options;
+    options = {};
+  }
+  if (typeof groupName === 'object') {
     options = groupName;
     groupName = null;
   }
-  return this.generator(groupName, options) || defaultGenerator.call(this, groupName, options);
+  if (typeof cb !== 'function') {
+    return this.generator(groupName, options) || defaultGenerator.call(this, groupName, options);
+  }
+  var self = this;
+  this.generator(groupName, options, function (err, id) {
+    if (err) return cb(err);
+    if (id == null) {
+      return cb(null, defaultGenerator.call(self, groupName, options));
+    }
+    cb(null, id);
+  });
 };
 
 /**
