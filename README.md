@@ -93,7 +93,7 @@ Create a new group to segment IDs
 * `options` **{Object}**: Additional options to define how the IDs are generated.    
 * `returns` **{Object}** `this`: to enable chaining  
 
-### [.next](index.js#L70)
+### [.next](index.js#L71)
 
 Get the next ID by groupName
 
@@ -101,6 +101,7 @@ Get the next ID by groupName
 
 * `groupName` **{String}**: Optional name of group to generate the ID for.    
 * `options` **{String}**: Additional options to pass to the generator    
+* `cb` **{Function}**: Optional callback function to get the next id async    
 * `returns` **{String}**: Generated ID
 
 ## Author
